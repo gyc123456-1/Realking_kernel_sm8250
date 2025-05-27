@@ -771,7 +771,7 @@ do_sku:
 			alc_setup_gpio(codec, 0x02);
 			break;
 		case 7:
-			alc_setup_gpio(codec, 0x04);
+			alc_setup_gpio(codec, 0x03);
 			break;
 		case 5:
 		default:
@@ -1916,8 +1916,6 @@ enum {
 	ALC1220_FIXUP_CLEVO_PB51ED_PINS,
 	ALC887_FIXUP_ASUS_AUDIO,
 	ALC887_FIXUP_ASUS_HMIC,
-	ALCS1200A_FIXUP_MIC_VREF,
-	ALC888VD_FIXUP_MIC_100VREF,
 };
 
 static void alc889_fixup_coef(struct hda_codec *codec,
@@ -2463,21 +2461,6 @@ static const struct hda_fixup alc882_fixups[] = {
 		.chained = true,
 		.chain_id = ALC887_FIXUP_ASUS_AUDIO,
 	},
-	[ALCS1200A_FIXUP_MIC_VREF] = {
-		.type = HDA_FIXUP_PINCTLS,
-		.v.pins = (const struct hda_pintbl[]) {
-			{ 0x18, PIN_VREF50 }, /* rear mic */
-			{ 0x19, PIN_VREF50 }, /* front mic */
-			{}
-		}
-	},
-	[ALC888VD_FIXUP_MIC_100VREF] = {
-		.type = HDA_FIXUP_PINCTLS,
-		.v.pins = (const struct hda_pintbl[]) {
-			{ 0x18, PIN_VREF100 }, /* headset mic */
-			{}
-		}
-	},
 };
 
 static const struct snd_pci_quirk alc882_fixup_tbl[] = {
@@ -2515,7 +2498,6 @@ static const struct snd_pci_quirk alc882_fixup_tbl[] = {
 	SND_PCI_QUIRK(0x1043, 0x835f, "Asus Eee 1601", ALC888_FIXUP_EEE1601),
 	SND_PCI_QUIRK(0x1043, 0x84bc, "ASUS ET2700", ALC887_FIXUP_ASUS_BASS),
 	SND_PCI_QUIRK(0x1043, 0x8691, "ASUS ROG Ranger VIII", ALC882_FIXUP_GPIO3),
-	SND_PCI_QUIRK(0x1043, 0x8797, "ASUS TUF B550M-PLUS", ALCS1200A_FIXUP_MIC_VREF),
 	SND_PCI_QUIRK(0x104d, 0x9043, "Sony Vaio VGC-LN51JGB", ALC882_FIXUP_NO_PRIMARY_HP),
 	SND_PCI_QUIRK(0x104d, 0x9044, "Sony VAIO AiO", ALC882_FIXUP_NO_PRIMARY_HP),
 	SND_PCI_QUIRK(0x104d, 0x9047, "Sony Vaio TT", ALC889_FIXUP_VAIO_TT),
@@ -2547,7 +2529,6 @@ static const struct snd_pci_quirk alc882_fixup_tbl[] = {
 	SND_PCI_QUIRK(0x106b, 0x4a00, "Macbook 5,2", ALC889_FIXUP_MBA11_VREF),
 
 	SND_PCI_QUIRK(0x1071, 0x8258, "Evesham Voyaeger", ALC882_FIXUP_EAPD),
-	SND_PCI_QUIRK(0x10ec, 0x12d8, "iBase Elo Touch", ALC888VD_FIXUP_MIC_100VREF),
 	SND_PCI_QUIRK(0x13fe, 0x1009, "Advantech MIT-W101", ALC886_FIXUP_EAPD),
 	SND_PCI_QUIRK(0x1458, 0xa002, "Gigabyte EP45-DS3/Z87X-UD3H", ALC889_FIXUP_FRONT_HP_NO_PRESENCE),
 	SND_PCI_QUIRK(0x1458, 0xa0b8, "Gigabyte AZ370-Gaming", ALC1220_FIXUP_GB_DUAL_CODECS),
@@ -2565,7 +2546,6 @@ static const struct snd_pci_quirk alc882_fixup_tbl[] = {
 	SND_PCI_QUIRK(0x1462, 0xda57, "MSI Z270-Gaming", ALC1220_FIXUP_GB_DUAL_CODECS),
 	SND_PCI_QUIRK_VENDOR(0x1462, "MSI", ALC882_FIXUP_GPIO3),
 	SND_PCI_QUIRK(0x147b, 0x107a, "Abit AW9D-MAX", ALC882_FIXUP_ABIT_AW9D_MAX),
-	SND_PCI_QUIRK(0x1558, 0x3702, "Clevo X370SN[VW]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
 	SND_PCI_QUIRK(0x1558, 0x50d3, "Clevo PC50[ER][CDF]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
 	SND_PCI_QUIRK(0x1558, 0x65d1, "Clevo PB51[ER][CDF]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
 	SND_PCI_QUIRK(0x1558, 0x65d2, "Clevo PB51R[CDF]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
@@ -2577,7 +2557,6 @@ static const struct snd_pci_quirk alc882_fixup_tbl[] = {
 	SND_PCI_QUIRK(0x1558, 0x67e1, "Clevo PB71[DE][CDF]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
 	SND_PCI_QUIRK(0x1558, 0x67e5, "Clevo PC70D[PRS](?:-D|-G)?", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
 	SND_PCI_QUIRK(0x1558, 0x67f1, "Clevo PC70H[PRS]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
-	SND_PCI_QUIRK(0x1558, 0x67f5, "Clevo PD70PN[NRT]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
 	SND_PCI_QUIRK(0x1558, 0x70d1, "Clevo PC70[ER][CDF]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
 	SND_PCI_QUIRK(0x1558, 0x7714, "Clevo X170SM", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
 	SND_PCI_QUIRK(0x1558, 0x7715, "Clevo X170KM-G", ALC1220_FIXUP_CLEVO_PB51ED),
@@ -3537,18 +3516,20 @@ static void alc_default_init(struct hda_codec *codec)
 
 	hp_pin_sense = snd_hda_jack_detect(codec, hp_pin);
 
-	if (hp_pin_sense) {
+	if (hp_pin_sense)
 		msleep(2);
 
-		snd_hda_codec_write(codec, hp_pin, 0,
-				    AC_VERB_SET_PIN_WIDGET_CONTROL, PIN_OUT);
+	snd_hda_codec_write(codec, hp_pin, 0,
+			    AC_VERB_SET_AMP_GAIN_MUTE, AMP_OUT_MUTE);
 
-		msleep(75);
+	if (hp_pin_sense)
+		msleep(85);
 
-		snd_hda_codec_write(codec, hp_pin, 0,
-				    AC_VERB_SET_AMP_GAIN_MUTE, AMP_OUT_UNMUTE);
-		msleep(75);
-	}
+	snd_hda_codec_write(codec, hp_pin, 0,
+			    AC_VERB_SET_PIN_WIDGET_CONTROL, PIN_OUT);
+
+	if (hp_pin_sense)
+		msleep(100);
 }
 
 static void alc_default_shutup(struct hda_codec *codec)
@@ -3564,20 +3545,22 @@ static void alc_default_shutup(struct hda_codec *codec)
 
 	hp_pin_sense = snd_hda_jack_detect(codec, hp_pin);
 
-	if (hp_pin_sense) {
+	if (hp_pin_sense)
 		msleep(2);
 
+	snd_hda_codec_write(codec, hp_pin, 0,
+			    AC_VERB_SET_AMP_GAIN_MUTE, AMP_OUT_MUTE);
+
+	if (hp_pin_sense)
+		msleep(85);
+
+	if (!spec->no_shutup_pins)
 		snd_hda_codec_write(codec, hp_pin, 0,
-				    AC_VERB_SET_AMP_GAIN_MUTE, AMP_OUT_MUTE);
+				    AC_VERB_SET_PIN_WIDGET_CONTROL, 0x0);
 
-		msleep(75);
+	if (hp_pin_sense)
+		msleep(100);
 
-		if (!spec->no_shutup_pins)
-			snd_hda_codec_write(codec, hp_pin, 0,
-					    AC_VERB_SET_PIN_WIDGET_CONTROL, 0x0);
-
-		msleep(75);
-	}
 	alc_auto_setup_eapd(codec, false);
 	alc_shutup_pins(codec);
 }
@@ -5850,7 +5833,6 @@ enum {
 	ALC298_FIXUP_LENOVO_SPK_VOLUME,
 	ALC256_FIXUP_DELL_INSPIRON_7559_SUBWOOFER,
 	ALC269_FIXUP_ATIV_BOOK_8,
-	ALC221_FIXUP_HP_288PRO_MIC_NO_PRESENCE,
 	ALC221_FIXUP_HP_MIC_NO_PRESENCE,
 	ALC256_FIXUP_ASUS_HEADSET_MODE,
 	ALC256_FIXUP_ASUS_MIC,
@@ -6649,16 +6631,6 @@ static const struct hda_fixup alc269_fixups[] = {
 		.chained = true,
 		.chain_id = ALC269_FIXUP_NO_SHUTUP
 	},
-	[ALC221_FIXUP_HP_288PRO_MIC_NO_PRESENCE] = {
-		.type = HDA_FIXUP_PINS,
-		.v.pins = (const struct hda_pintbl[]) {
-			{ 0x19, 0x01a1913c }, /* use as headset mic, without its own jack detect */
-			{ 0x1a, 0x01813030 }, /* use as headphone mic, without its own jack detect */
-			{ }
-		},
-		.chained = true,
-		.chain_id = ALC269_FIXUP_HEADSET_MODE
-	},
 	[ALC221_FIXUP_HP_MIC_NO_PRESENCE] = {
 		.type = HDA_FIXUP_PINS,
 		.v.pins = (const struct hda_pintbl[]) {
@@ -7046,7 +7018,6 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
 	SND_PCI_QUIRK(0x1025, 0x132a, "Acer TravelMate B114-21", ALC233_FIXUP_ACER_HEADSET_MIC),
 	SND_PCI_QUIRK(0x1025, 0x1330, "Acer TravelMate X514-51T", ALC255_FIXUP_ACER_HEADSET_MIC),
 	SND_PCI_QUIRK(0x1028, 0x0470, "Dell M101z", ALC269_FIXUP_DELL_M101Z),
-	SND_PCI_QUIRK(0x1028, 0x053c, "Dell Latitude E5430", ALC292_FIXUP_DELL_E7X),
 	SND_PCI_QUIRK(0x1028, 0x054b, "Dell XPS one 2710", ALC275_FIXUP_DELL_XPS),
 	SND_PCI_QUIRK(0x1028, 0x05bd, "Dell Latitude E6440", ALC292_FIXUP_DELL_E7X),
 	SND_PCI_QUIRK(0x1028, 0x05be, "Dell Latitude E6540", ALC292_FIXUP_DELL_E7X),
@@ -7153,7 +7124,6 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
 	SND_PCI_QUIRK(0x103c, 0x2335, "HP", ALC269_FIXUP_HP_MUTE_LED_MIC1),
 	SND_PCI_QUIRK(0x103c, 0x2336, "HP", ALC269_FIXUP_HP_MUTE_LED_MIC1),
 	SND_PCI_QUIRK(0x103c, 0x2337, "HP", ALC269_FIXUP_HP_MUTE_LED_MIC1),
-	SND_PCI_QUIRK(0x103c, 0x2b5e, "HP 288 Pro G2 MT", ALC221_FIXUP_HP_288PRO_MIC_NO_PRESENCE),
 	SND_PCI_QUIRK(0x103c, 0x802e, "HP Z240 SFF", ALC221_FIXUP_HP_MIC_NO_PRESENCE),
 	SND_PCI_QUIRK(0x103c, 0x802f, "HP Z240", ALC221_FIXUP_HP_MIC_NO_PRESENCE),
 	SND_PCI_QUIRK(0x103c, 0x820d, "HP Pavilion 15", ALC269_FIXUP_HP_MUTE_LED_MIC3),
@@ -7173,7 +7143,6 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
 	SND_PCI_QUIRK(0x1043, 0x10a1, "ASUS UX391UA", ALC294_FIXUP_ASUS_SPK),
 	SND_PCI_QUIRK(0x1043, 0x10c0, "ASUS X540SA", ALC256_FIXUP_ASUS_MIC),
 	SND_PCI_QUIRK(0x1043, 0x10d0, "ASUS X540LA/X540LJ", ALC255_FIXUP_ASUS_MIC_NO_PRESENCE),
-	SND_PCI_QUIRK(0x1043, 0x10d3, "ASUS K6500ZC", ALC294_FIXUP_ASUS_SPK),
 	SND_PCI_QUIRK(0x1043, 0x115d, "Asus 1015E", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
 	SND_PCI_QUIRK(0x1043, 0x11c0, "ASUS X556UR", ALC255_FIXUP_ASUS_MIC_NO_PRESENCE),
 	SND_PCI_QUIRK(0x1043, 0x1271, "ASUS X430UN", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
@@ -7214,7 +7183,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
 	SND_PCI_QUIRK(0x10cf, 0x1629, "Lifebook U7x7", ALC255_FIXUP_LIFEBOOK_U7x7_HEADSET_MIC),
 	SND_PCI_QUIRK(0x10cf, 0x1845, "Lifebook U904", ALC269_FIXUP_LIFEBOOK_EXTMIC),
 	SND_PCI_QUIRK(0x10ec, 0x10f2, "Intel Reference board", ALC700_FIXUP_INTEL_REFERENCE),
-	SND_PCI_QUIRK(0x10f7, 0x8338, "Panasonic CF-SZ6", ALC269_FIXUP_ASPIRE_HEADSET_MIC),
+	SND_PCI_QUIRK(0x10f7, 0x8338, "Panasonic CF-SZ6", ALC269_FIXUP_HEADSET_MODE),
 	SND_PCI_QUIRK(0x144d, 0xc109, "Samsung Ativ book 9 (NP900X3G)", ALC269_FIXUP_INV_DMIC),
 	SND_PCI_QUIRK(0x144d, 0xc740, "Samsung Ativ book 8 (NP870Z5G)", ALC269_FIXUP_ATIV_BOOK_8),
 	SND_PCI_QUIRK(0x1458, 0xfa53, "Gigabyte BXBT-2807", ALC283_FIXUP_HEADSET_MIC),
@@ -8517,110 +8486,7 @@ static void alc662_fixup_usi_headset_mic(struct hda_codec *codec,
 	}
 }
 
-<<<<<<< HEAD
-static void alc662_aspire_ethos_mute_speakers(struct hda_codec *codec,
-					struct hda_jack_callback *cb)
-{
-	/* surround speakers at 0x1b already get muted automatically when
-	 * headphones are plugged in, but we have to mute/unmute the remaining
-	 * channels manually:
-	 * 0x15 - front left/front right
-	 * 0x18 - front center/ LFE
-	 */
-	if (snd_hda_jack_detect_state(codec, 0x1b) == HDA_JACK_PRESENT) {
-		snd_hda_set_pin_ctl_cache(codec, 0x15, 0);
-		snd_hda_set_pin_ctl_cache(codec, 0x18, 0);
-	} else {
-		snd_hda_set_pin_ctl_cache(codec, 0x15, PIN_OUT);
-		snd_hda_set_pin_ctl_cache(codec, 0x18, PIN_OUT);
-	}
-}
-
-static void alc662_fixup_aspire_ethos_hp(struct hda_codec *codec,
-					const struct hda_fixup *fix, int action)
-{
-    /* Pin 0x1b: shared headphones jack and surround speakers */
-	if (!is_jack_detectable(codec, 0x1b))
-		return;
-
-	switch (action) {
-	case HDA_FIXUP_ACT_PRE_PROBE:
-		snd_hda_jack_detect_enable_callback(codec, 0x1b,
-				alc662_aspire_ethos_mute_speakers);
-		/* subwoofer needs an extra GPIO setting to become audible */
-		alc_setup_gpio(codec, 0x02);
-		break;
-	case HDA_FIXUP_ACT_INIT:
-		/* Make sure to start in a correct state, i.e. if
-		 * headphones have been plugged in before powering up the system
-		 */
-		alc662_aspire_ethos_mute_speakers(codec, NULL);
-		break;
-	}
-}
-
-static void alc671_fixup_hp_headset_mic2(struct hda_codec *codec,
-					     const struct hda_fixup *fix, int action)
-{
-	struct alc_spec *spec = codec->spec;
-
-	static const struct hda_pintbl pincfgs[] = {
-		{ 0x19, 0x02a11040 }, /* use as headset mic, with its own jack detect */
-		{ 0x1b, 0x0181304f },
-		{ }
-	};
-
-	switch (action) {
-	case HDA_FIXUP_ACT_PRE_PROBE:
-		spec->gen.mixer_nid = 0;
-		spec->parse_flags |= HDA_PINCFG_HEADSET_MIC;
-		snd_hda_apply_pincfgs(codec, pincfgs);
-		break;
-	case HDA_FIXUP_ACT_INIT:
-		alc_write_coef_idx(codec, 0x19, 0xa054);
-		break;
-	}
-}
-
-static void alc897_hp_automute_hook(struct hda_codec *codec,
-					 struct hda_jack_callback *jack)
-{
-	struct alc_spec *spec = codec->spec;
-	int vref;
-
-	snd_hda_gen_hp_automute(codec, jack);
-	vref = spec->gen.hp_jack_present ? (PIN_HP | AC_PINCTL_VREF_100) : PIN_HP;
-	snd_hda_set_pin_ctl(codec, 0x1b, vref);
-}
-
-static void alc897_fixup_lenovo_headset_mic(struct hda_codec *codec,
-				     const struct hda_fixup *fix, int action)
-{
-	struct alc_spec *spec = codec->spec;
-	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
-		spec->gen.hp_automute_hook = alc897_hp_automute_hook;
-		spec->no_shutup_pins = 1;
-	}
-	if (action == HDA_FIXUP_ACT_PROBE) {
-		snd_hda_set_pin_ctl_cache(codec, 0x1a, PIN_IN | AC_PINCTL_VREF_100);
-	}
-}
-
-static void alc897_fixup_lenovo_headset_mode(struct hda_codec *codec,
-				     const struct hda_fixup *fix, int action)
-{
-	struct alc_spec *spec = codec->spec;
-
-	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
-		spec->parse_flags |= HDA_PINCFG_HEADSET_MIC;
-		spec->gen.hp_automute_hook = alc897_hp_automute_hook;
-	}
-}
-
-static const struct coef_fw alc668_coefs[] = {
-=======
 static struct coef_fw alc668_coefs[] = {
->>>>>>> c0706b18ca4d7 (sound: Inline with https://github.com/projects-nexus/nexus_kernel_xiaomi_sm8250)
 	WRITE_COEF(0x01, 0xbebe), WRITE_COEF(0x02, 0xaaaa), WRITE_COEF(0x03,    0x0),
 	WRITE_COEF(0x04, 0x0180), WRITE_COEF(0x06,    0x0), WRITE_COEF(0x07, 0x0f80),
 	WRITE_COEF(0x08, 0x0031), WRITE_COEF(0x0a, 0x0060), WRITE_COEF(0x0b,    0x0),
@@ -8691,22 +8557,6 @@ enum {
 	ALC662_FIXUP_USI_FUNC,
 	ALC662_FIXUP_USI_HEADSET_MODE,
 	ALC662_FIXUP_LENOVO_MULTI_CODECS,
-<<<<<<< HEAD
-	ALC669_FIXUP_ACER_ASPIRE_ETHOS,
-	ALC669_FIXUP_ACER_ASPIRE_ETHOS_HEADSET,
-	ALC671_FIXUP_HP_HEADSET_MIC2,
-	ALC662_FIXUP_ACER_X2660G_HEADSET_MODE,
-	ALC662_FIXUP_ACER_NITRO_HEADSET_MODE,
-	ALC668_FIXUP_ASUS_NO_HEADSET_MIC,
-	ALC668_FIXUP_HEADSET_MIC,
-	ALC668_FIXUP_MIC_DET_COEF,
-	ALC897_FIXUP_LENOVO_HEADSET_MIC,
-	ALC897_FIXUP_HEADSET_MIC_PIN,
-	ALC897_FIXUP_HP_HSMIC_VERB,
-	ALC897_FIXUP_LENOVO_HEADSET_MODE,
-	ALC897_FIXUP_HEADSET_MIC_PIN2,
-=======
->>>>>>> c0706b18ca4d7 (sound: Inline with https://github.com/projects-nexus/nexus_kernel_xiaomi_sm8250)
 };
 
 static const struct hda_fixup alc662_fixups[] = {
@@ -9033,103 +8883,6 @@ static const struct hda_fixup alc662_fixups[] = {
 		.type = HDA_FIXUP_FUNC,
 		.v.func = alc233_alc662_fixup_lenovo_dual_codecs,
 	},
-<<<<<<< HEAD
-	[ALC669_FIXUP_ACER_ASPIRE_ETHOS_HEADSET] = {
-		.type = HDA_FIXUP_FUNC,
-		.v.func = alc662_fixup_aspire_ethos_hp,
-	},
-	[ALC669_FIXUP_ACER_ASPIRE_ETHOS] = {
-		.type = HDA_FIXUP_PINS,
-		.v.pins = (const struct hda_pintbl[]) {
-			{ 0x15, 0x92130110 }, /* front speakers */
-			{ 0x18, 0x99130111 }, /* center/subwoofer */
-			{ 0x1b, 0x11130012 }, /* surround plus jack for HP */
-			{ }
-		},
-		.chained = true,
-		.chain_id = ALC669_FIXUP_ACER_ASPIRE_ETHOS_HEADSET
-	},
-	[ALC671_FIXUP_HP_HEADSET_MIC2] = {
-		.type = HDA_FIXUP_FUNC,
-		.v.func = alc671_fixup_hp_headset_mic2,
-	},
-	[ALC662_FIXUP_ACER_X2660G_HEADSET_MODE] = {
-		.type = HDA_FIXUP_PINS,
-		.v.pins = (const struct hda_pintbl[]) {
-			{ 0x1a, 0x02a1113c }, /* use as headset mic, without its own jack detect */
-			{ }
-		},
-		.chained = true,
-		.chain_id = ALC662_FIXUP_USI_FUNC
-	},
-	[ALC662_FIXUP_ACER_NITRO_HEADSET_MODE] = {
-		.type = HDA_FIXUP_PINS,
-		.v.pins = (const struct hda_pintbl[]) {
-			{ 0x1a, 0x01a11140 }, /* use as headset mic, without its own jack detect */
-			{ 0x1b, 0x0221144f },
-			{ }
-		},
-		.chained = true,
-		.chain_id = ALC662_FIXUP_USI_FUNC
-	},
-	[ALC668_FIXUP_ASUS_NO_HEADSET_MIC] = {
-		.type = HDA_FIXUP_PINS,
-		.v.pins = (const struct hda_pintbl[]) {
-			{ 0x1b, 0x04a1112c },
-			{ }
-		},
-		.chained = true,
-		.chain_id = ALC668_FIXUP_HEADSET_MIC
-	},
-	[ALC668_FIXUP_HEADSET_MIC] = {
-		.type = HDA_FIXUP_FUNC,
-		.v.func = alc269_fixup_headset_mic,
-		.chained = true,
-		.chain_id = ALC668_FIXUP_MIC_DET_COEF
-	},
-	[ALC668_FIXUP_MIC_DET_COEF] = {
-		.type = HDA_FIXUP_VERBS,
-		.v.verbs = (const struct hda_verb[]) {
-			{ 0x20, AC_VERB_SET_COEF_INDEX, 0x15 },
-			{ 0x20, AC_VERB_SET_PROC_COEF, 0x0d60 },
-			{}
-		},
-	},
-	[ALC897_FIXUP_LENOVO_HEADSET_MIC] = {
-		.type = HDA_FIXUP_FUNC,
-		.v.func = alc897_fixup_lenovo_headset_mic,
-	},
-	[ALC897_FIXUP_HEADSET_MIC_PIN] = {
-		.type = HDA_FIXUP_PINS,
-		.v.pins = (const struct hda_pintbl[]) {
-			{ 0x1a, 0x03a11050 },
-			{ }
-		},
-		.chained = true,
-		.chain_id = ALC897_FIXUP_LENOVO_HEADSET_MIC
-	},
-	[ALC897_FIXUP_HP_HSMIC_VERB] = {
-		.type = HDA_FIXUP_PINS,
-		.v.pins = (const struct hda_pintbl[]) {
-			{ 0x19, 0x01a1913c }, /* use as headset mic, without its own jack detect */
-			{ }
-		},
-	},
-	[ALC897_FIXUP_LENOVO_HEADSET_MODE] = {
-		.type = HDA_FIXUP_FUNC,
-		.v.func = alc897_fixup_lenovo_headset_mode,
-	},
-	[ALC897_FIXUP_HEADSET_MIC_PIN2] = {
-		.type = HDA_FIXUP_PINS,
-		.v.pins = (const struct hda_pintbl[]) {
-			{ 0x1a, 0x01a11140 }, /* use as headset mic, without its own jack detect */
-			{ }
-		},
-		.chained = true,
-		.chain_id = ALC897_FIXUP_LENOVO_HEADSET_MODE
-	},
-=======
->>>>>>> c0706b18ca4d7 (sound: Inline with https://github.com/projects-nexus/nexus_kernel_xiaomi_sm8250)
 };
 
 static const struct snd_pci_quirk alc662_fixup_tbl[] = {
@@ -9169,17 +8922,6 @@ static const struct snd_pci_quirk alc662_fixup_tbl[] = {
 	SND_PCI_QUIRK(0x144d, 0xc051, "Samsung R720", ALC662_FIXUP_IDEAPAD),
 	SND_PCI_QUIRK(0x14cd, 0x5003, "USI", ALC662_FIXUP_USI_HEADSET_MODE),
 	SND_PCI_QUIRK(0x17aa, 0x1036, "Lenovo P520", ALC662_FIXUP_LENOVO_MULTI_CODECS),
-<<<<<<< HEAD
-	SND_PCI_QUIRK(0x17aa, 0x32ca, "Lenovo ThinkCentre M80", ALC897_FIXUP_HEADSET_MIC_PIN),
-	SND_PCI_QUIRK(0x17aa, 0x32cb, "Lenovo ThinkCentre M70", ALC897_FIXUP_HEADSET_MIC_PIN),
-	SND_PCI_QUIRK(0x17aa, 0x32cf, "Lenovo ThinkCentre M950", ALC897_FIXUP_HEADSET_MIC_PIN),
-	SND_PCI_QUIRK(0x17aa, 0x32f7, "Lenovo ThinkCentre M90", ALC897_FIXUP_HEADSET_MIC_PIN),
-	SND_PCI_QUIRK(0x17aa, 0x3321, "Lenovo ThinkCentre M70 Gen4", ALC897_FIXUP_HEADSET_MIC_PIN),
-	SND_PCI_QUIRK(0x17aa, 0x331b, "Lenovo ThinkCentre M90 Gen4", ALC897_FIXUP_HEADSET_MIC_PIN),
-	SND_PCI_QUIRK(0x17aa, 0x3364, "Lenovo ThinkCentre M90 Gen5", ALC897_FIXUP_HEADSET_MIC_PIN),
-	SND_PCI_QUIRK(0x17aa, 0x3742, "Lenovo TianYi510Pro-14IOB", ALC897_FIXUP_HEADSET_MIC_PIN2),
-=======
->>>>>>> c0706b18ca4d7 (sound: Inline with https://github.com/projects-nexus/nexus_kernel_xiaomi_sm8250)
 	SND_PCI_QUIRK(0x17aa, 0x38af, "Lenovo Ideapad Y550P", ALC662_FIXUP_IDEAPAD),
 	SND_PCI_QUIRK(0x17aa, 0x3a0d, "Lenovo Ideapad Y550", ALC662_FIXUP_IDEAPAD),
 	SND_PCI_QUIRK(0x1849, 0x5892, "ASRock B150M", ALC892_FIXUP_ASROCK_MOBO),
